@@ -10,7 +10,7 @@ public class DB {
    private String userName = "root";
    private String password = "";
 
-   private Connection conn = null;
+   public Connection conn = null;
 
    public void connection() {
        try {
@@ -41,13 +41,6 @@ public class DB {
     }
 
 
-    // user Add
-    public void userAdd( String name, String surname, String email, String password ) {
-       try {
 
-       }catch (Exception ex) {
-           System.err.println("Insert Error : " + ex);
-       }
-    }
 
 }
