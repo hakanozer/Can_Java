@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.works._10_days.UseList">
+   <children>
+      <ComboBox fx:id="comboBoxCity" layoutX="14.0" layoutY="14.0" prefWidth="150.0" />
+      <Button fx:id="btnSelectItem" layoutX="517.0" layoutY="361.0" mnemonicParsing="false" onAction="#fncSelectItem" text="Select Item" />
+      <Button fx:id="btnDataSoruce" layoutX="425.0" layoutY="361.0" mnemonicParsing="false" onAction="#fncDataSource" text="Data Soruce" />
+      <ChoiceBox fx:id="choiceBoxCity" layoutX="198.0" layoutY="14.0" prefWidth="150.0" />
+      <CheckBox fx:id="checkBox1" layoutX="14.0" layoutY="62.0" mnemonicParsing="false" text="Action-1" />
+      <CheckBox fx:id="checkBox2" layoutX="101.0" layoutY="62.0" mnemonicParsing="false" text="Action-2" />
+      <CheckBox fx:id="checkBox3" layoutX="194.0" layoutY="62.0" mnemonicParsing="false" text="Action-3" />
+
+
+      <RadioButton fx:id="radioYes" layoutX="14.0" layoutY="106.0" mnemonicParsing="false" text="Yes" toggleGroup="$all">
+         <ToggleGroup fx:id="all">
+         </ToggleGroup>
+      </RadioButton>
+      <RadioButton fx:id="radioNo" layoutX="101.0" layoutY="106.0" mnemonicParsing="false" text="No" toggleGroup="$all" />
+      <RadioButton fx:id="radioCancel" layoutX="194.0" layoutY="106.0" mnemonicParsing="false" text="Cancel" toggleGroup="$all" />
+      <Group />
+      <ListView fx:id="listViewCity" layoutX="14.0" layoutY="141.0" prefHeight="200.0" prefWidth="200.0" />
+   </children>
+</AnchorPane>

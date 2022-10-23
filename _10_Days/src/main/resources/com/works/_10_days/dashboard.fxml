@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="230.0" prefWidth="327.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.works._10_days.Dashboard">
+   <children>
+      <TextField fx:id="num1" layoutX="14.0" layoutY="14.0" prefHeight="25.0" prefWidth="301.0" promptText="Num - 1" />
+      <TextField fx:id="num2" layoutX="14.0" layoutY="49.0" prefHeight="25.0" prefWidth="301.0" promptText="Num - 2" />
+      <Button fx:id="btnCall" layoutX="239.0" layoutY="80.0" mnemonicParsing="false" onAction="#sum" prefHeight="25.0" prefWidth="76.0" text="Call" />
+      <Label fx:id="lblCall" layoutX="14.0" layoutY="80.0" prefHeight="25.0" prefWidth="210.0" text="Label">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
