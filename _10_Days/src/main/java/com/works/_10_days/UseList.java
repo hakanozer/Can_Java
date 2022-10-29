@@ -1,5 +1,6 @@
 package com.works._10_days;
 
+import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -9,6 +10,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.input.InputMethodEvent;
+import javafx.stage.Stage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +24,6 @@ public class UseList {
     // radio
     @FXML
     private RadioButton radioYes, radioNo, radioCancel;
-
 
     String[] city = {"Ankara", "İstanbul", "İzmir", "Samsun", "Adana"};
 
@@ -78,5 +79,6 @@ public class UseList {
         int selectIndex = listViewCity.getSelectionModel().getSelectedIndex();
         System.out.println(selectIndex);
     }
+
 
 }
