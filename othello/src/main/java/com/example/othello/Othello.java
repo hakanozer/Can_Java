@@ -1,21 +1,9 @@
 package com.example.othello;
 
-
-
-
 public class Othello {
     public static final int dimension=8;
 
-
-
-
-
     public static char whosTurn = OthelloBoard.blackPlayer;
-
-
-
-
-
 
     public static void changePlayer(){
         if (whosTurn == OthelloBoard.blackPlayer){
@@ -33,9 +21,6 @@ public class Othello {
 
         }
         System.out.println(othelloBoard.getValue());
-
-
-
 
     }
 

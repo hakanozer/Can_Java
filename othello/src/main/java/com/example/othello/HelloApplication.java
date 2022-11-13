@@ -10,41 +10,31 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import szte.mi.Move;
 
 import java.io.IOException;
+import java.util.Set;
 
 public class HelloApplication extends Application {
 
+    Box[][] boxes = new Box[8][8];
 
-    final OthelloBoardView othelloBoardView = new OthelloBoardView(8);
+    final OthelloBoard othelloBoard = new OthelloBoard(8);
     public void eventCall(int x, int y){
 
-        OthelloBoardView.row = x;
-        OthelloBoardView.col = y;
+        OthelloBoard.row = x;
+        OthelloBoard.col = y;
 
-        othelloBoardView.getValue();
-        othelloBoardView.gameNotFinished();
-        System.out.println( othelloBoardView.writeBoard());
-
-
-
-
-
-
-        System.out.println("x:" + x + " " + "y:" + y);
-
+        othelloBoard.getValue();
+        othelloBoard.gameNotFinished();
+        System.out.println( othelloBoard.writeBoard());
+        fncCheckValid();
     }
 
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
         GridPane pane = new GridPane();
-
-
-
-
-
-
 
         int count = 0;
         double s = 100;
@@ -115,22 +105,9 @@ public class HelloApplication extends Application {
                 rectangle4.setFill(Color.WHITE);
 
 
-
-
-
-
-
-
-
-
             }
 
         }
-
-
-
-
-
 
 
       /* try{
@@ -144,6 +121,7 @@ public class HelloApplication extends Application {
        } */
 
 
+        fncCheckValid();
 
         Scene scene = new Scene(pane);
         stage.setTitle("Othello");
@@ -151,6 +129,22 @@ public class HelloApplication extends Application {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();
+    }
+
+    public void fncCheckValid() {
+        Set<String> sets = othelloBoard.checkValid();
+        for( String item : sets ) {
+            if ( !item.equals("") ) {
+                String[] arr = item.split(",");
+                int x = Integer.parseInt(arr[0]);
+                int y = Integer.parseInt(arr[1]);
+                System.out.println("x: " + x + " y:" + y );
+
+                Move move = new Move(x, y);
+                Box b = new Box(move, EBoard.suggestion);
+                boxes[x][y] = b;
+            }
+        }
     }
 
     public static void main(String[] args) {
