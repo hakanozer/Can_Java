@@ -1,9 +1,12 @@
 package com.example.othello;
-
 import javafx.application.Application;
 import javafx.event.EventHandler;
-import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.ColorInput;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -12,15 +15,16 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import szte.mi.Move;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Set;
+import java.util.*;
 
 public class HelloApplication extends Application {
 
-
+    boolean isComputer = true;
+    BorderPane root = new BorderPane();
+    Scene scene = new Scene(root,800,800);
 
     Box[][] boxes = new Box[8][8];
 
@@ -32,113 +36,20 @@ public class HelloApplication extends Application {
 
         othelloBoard.getValue();
         othelloBoard.gameNotFinished();
-        tableGenerator();
+        updateBoard();
     }
 
     Stage stage = null;
     @Override
     public void start(Stage stage) throws IOException {
         this.stage  = stage;
-        tableGenerator();
-        /*
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        GridPane pane = new GridPane();
+        updateBoard();
 
-        int count = 0;
-        double s = 100;
-        for (int i = 0; i < 8; i++) {
-            count++;
-            for (int j = 0; j < 8; j++) {
-                final int ii = i;
-                final int jj = j;
-                Rectangle r = new Rectangle(s, s, s, s);
-
-                    r.setFill(Color.GREEN);
-                    r.setStroke(Color.BLACK);
-
-                pane.add(r, j, i);
-
-                r.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
-                    @Override
-                    public void handle(MouseEvent mouseEvent) {
-                        eventCall(ii , jj);
-                    }
-                });
-
-                count++;
-
-            }
-        }
-        double t = 100;
-        for (int i = 0; i < 8; i++) {
-            for (int j = 0; j < 8; j++) {
-                Rectangle rectangle1 = new Rectangle(t,t,t,t);
-                Rectangle rectangle2 = new Rectangle(t,t,t,t);
-                Rectangle rectangle3 = new Rectangle(t,t,t,t);
-                Rectangle rectangle4 = new Rectangle(t,t,t,t);
-
-
-                rectangle1.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent mouseEvent) {
-                        eventCall(3 , 4);
-                    }
-                });
-                rectangle2.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent mouseEvent) {
-                        eventCall(4 , 3);
-                    }
-                });
-                rectangle3.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent mouseEvent) {
-                        eventCall(3 , 3);
-                    }
-                });
-                rectangle4.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent mouseEvent) {
-                        eventCall(4 , 4);
-                    }
-                });
-                pane.add(rectangle1,4,3);
-                pane.add(rectangle2,3,4);
-                pane.add(rectangle3,3,3);
-                pane.add(rectangle4,4,4);
-
-
-                rectangle3.setFill(Color.WHITE);
-                rectangle4.setFill(Color.WHITE);
-
-
-            }
-
-        }
-
-
-       try{
-           String path = new File("/Users/cankale/Desktop/othello/src/main/resources/gameSong.mp3").toURI().toString();
-           MediaPlayer mediaPlayer = new MediaPlayer(new Media(path));
-           mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
-           mediaPlayer.play();
-
-       }catch (Exception e){
-           System.err.println("Error: " + e);
-       }
-
-        Scene scene = new Scene(pane);
-        stage.setTitle("Othello");
-        stage.getIcons().add(new Image("othelloLogo.jpeg"));
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
-         */
     }
 
     public void fncCheckValid() {
         Set<String> sets = othelloBoard.checkValid();
+        Set<Move> moves = new HashSet<>();
         for( String item : sets ) {
             if ( !item.equals("") ) {
                 String[] arr = item.split(",");
@@ -147,7 +58,17 @@ public class HelloApplication extends Application {
                 Move move = new Move(x, y);
                 Box b = new Box(move, EBoard.suggestion);
                 boxes[x][y] = b;
+                moves.add(move);
             }
+        }
+
+        if ( isComputer == true && getTurn().equals("White")) {
+            int size = moves.size();
+            Random random = new Random();
+            int rnd = random.nextInt(size);
+            Move move = (Move) moves.toArray()[rnd];
+            eventCall(move.x, move.y);
+            System.out.println(move.x + ", " + move.y);
         }
     }
 
@@ -177,59 +98,98 @@ public class HelloApplication extends Application {
         }
     }
 
-
-    public void tableGenerator() {
-        try {
-        checkBoxes();
-        fncCheckValid();
-
-        InputStream os = new FileInputStream( "/Users/hakan/Documents/Can_Java/othello/src/main/resources/image/o.png" );
-        Image imgx = new Image(os);
-
-        InputStream xs = new FileInputStream( "/Users/hakan/Documents/Can_Java/othello/src/main/resources/image/x.png");
-        Image imgo = new Image(xs);
-
-
-        GridPane pane = new GridPane();
-        for (int i = 0; i < boxes.length; i++) {
-            for (int j = 0; j < boxes[i].length; j++) {
-                Box b = boxes[i][j];
-                final int fi = i;
-                final int fj = j;
-                System.out.println( b.getCoordinate().x + " " + b.getCoordinate().y + " " + b.getType() );
-                int t = 100;
-                Rectangle r = new Rectangle(t,t,t,t);
-                r.setFill(Color.GREEN);
-                r.setStroke(Color.BLACK);
-
-                r.setOnMouseClicked(new EventHandler<MouseEvent>() {
-                    @Override
-                    public void handle(MouseEvent mouseEvent) {
-                        eventCall(fi , fj);
-                    }
-                });
-
-                if (b.getType() == EBoard.black) {
-                    r.setFill(new ImagePattern(imgx));
-                    //r.setFill(Color.BLACK);
-                }
-                if (b.getType() == EBoard.white) {
-                    r.setFill(new ImagePattern(imgo));
-                    //r.setFill(Color.WHITE);
-                }
-                if (b.getType() == EBoard.suggestion) {
-                    r.setFill(Color.YELLOW);
-                }
-
-                pane.add(r, j, i);
-            }
+    public String getTurn(){
+        if (Othello.whosTurn == OthelloBoard.blackPlayer){
+            return "Black";
+        }else {
+            return "White";
         }
-        Scene scene = new Scene(pane);
-        stage.setTitle("Othello");
-        stage.getIcons().add(new Image("othelloLogo.jpeg"));
-        stage.setScene(scene);
-        stage.setResizable(false);
-        stage.show();
+    }
+
+
+
+
+    public void updateBoard() {
+        try {
+            checkBoxes();
+            fncCheckValid();
+
+
+            //InputStream os = new FileInputStream("/Users/cankale/Desktop/othello/src/main/resources/image/whitecircle.png" );
+            InputStream os = new FileInputStream("src/main/resources/image/whitecircle.png");
+            Image imgo = new Image(os);
+
+            //InputStream xs = new FileInputStream("/Users/cankale/Desktop/othello/src/main/resources/image/black.png");
+            InputStream xs = new FileInputStream("src/main/resources/image/black.png");
+            Image imgx = new Image(xs);
+
+
+            GridPane pane = new GridPane();
+            for (int i = 0; i < boxes.length; i++) {
+                for (int j = 0; j < boxes[i].length; j++) {
+                    Box b = boxes[i][j];
+                    final int fi = i;
+                    final int fj = j;
+                    //System.out.println( b.getCoordinate().x + " " + b.getCoordinate().y + " " + b.getType() );
+
+                    int t = 90;
+                    Rectangle r = new Rectangle(t,t,t,t);
+                    r.setFill(Color.rgb(56, 154, 34));
+                    r.setStroke(Color.BLACK);
+
+                    r.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                        @Override
+                        public void handle(MouseEvent mouseEvent) {
+                            eventCall(fi , fj);
+                        }
+                    });
+
+                    if (b.getType() == EBoard.black) {
+                        r.setFill(new ImagePattern(imgx));
+
+
+                    }
+                    if (b.getType() == EBoard.white) {
+                        r.setFill(new ImagePattern(imgo));
+
+                    }
+                    if (b.getType() == EBoard.suggestion) {
+                        r.setFill(Color.rgb(253 ,185 ,18));
+                        r.setStroke(Color.BLACK);
+                    }
+
+                    pane.add(r, j, i);
+
+                }
+            }
+
+
+
+            Label labelTurn = new Label();
+
+
+            labelTurn.setText("                    " + "Black: " + othelloBoard.blackScore() + "            " + getTurn() + "'s turn" +"            " + "White: " + othelloBoard.whiteScore());
+            labelTurn.setStyle("-fx-font: 32 Avenure;");
+
+
+            labelTurn.setTextFill(Color.WHITE);
+
+            pane.setPrefSize(600,600);
+            pane.setAlignment(Pos.BOTTOM_CENTER);
+
+
+            root.setTop(labelTurn);
+            root.setStyle("-fx-background-color: black;");
+            root.setCenter(pane);
+
+
+            stage.setTitle("Othello");
+            stage.getIcons().add(new Image("othelloLogo.jpeg"));
+            stage.setScene(scene);
+
+            stage.setResizable(false);
+            stage.show();
+
 
         }catch (Exception ex) {
             System.err.println("Error : " + ex);
