@@ -2,49 +2,115 @@ package com.example.othello;
 
 import szte.mi.Move;
 import szte.mi.Player;
-import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
+
+
+import java.util.*;
+
 
 public class RandomAI implements Player {
 
-    OthelloBoardData data = new OthelloBoardData();
-    long computerTime = 0l;
+
+    static OthelloBoard board;
+
+    AIData aiData = new AIData();
+    static Random rnd = new Random();
+
+    int order = 0;
+
+    char myPlayer = ' ';
+    char oppPlayer = ' ';
+
 
     @Override
     public void init(int order, long t, Random rnd) {
-        computerTime = t;
-        data.random = rnd;
-        if (order == 0) {
-            data.isComputer = true;
-        }else {
-            data.isComputer = false;
-        }
-    }
+        this.order = order;
+        this.rnd = rnd;
+        board = new OthelloBoard(8);
 
+
+        if (order == 0) {
+            myPlayer = OthelloBoard.blackPlayer;
+            oppPlayer = OthelloBoard.whitePlayer;
+        } else {
+            myPlayer = OthelloBoard.whitePlayer;
+            oppPlayer = OthelloBoard.blackPlayer;
+
+
+        }
+
+
+    }
 
     @Override
     public Move nextMove(Move prevMove, long tOpponent, long t) {
-
         Move m = null;
-        data.eventCall(prevMove.x, prevMove.y);
-        Box[][] boxes = data.boxes;
-        for (int i = 0; i < boxes.length; i++) {
-            for (int j = 0; j < boxes[i].length; j++) {
-                if ( i == prevMove.x && j == prevMove.y) {
-                    m = boxes[i][j].getCoordinate();
-                }
+
+        if (prevMove != null) {
+            board.flipper(prevMove.x,prevMove.y,oppPlayer);
+
+            int x = 0;
+            int y = 0;
+
+            Set<Move> nextMoves = board.fncCheckValid(x,y,myPlayer);
+            int size = nextMoves.size();
+            if (size > 0) {
+                int a = rnd.nextInt(size);
+                m = (Move) nextMoves.toArray()[a];
+
+                board.flipper(m.x, m.y, myPlayer);
+
+                return m;
             }
+
         }
+        if (prevMove == null) {
+            int x = 0;
+            int y = 0;
+
+            Set<Move> nextMoves = board.fncCheckValid(x,y,myPlayer);
+
+            int size = nextMoves.size();
+            if (size > 0) {
+                int a = rnd.nextInt(size);
+                m = (Move) nextMoves.toArray()[a];
+                board.flipper(m.x, m.y, myPlayer);
+                return m;
+            }
+
+
+
+        }
+
+
+
         return m;
     }
 
+    /* public static void main(String[] args) {
+        Player p1 = new RandomAI();
+        Player p2 = new RandomAI();
 
-    public static void main(String[] args) {
-        RandomAI ai = new RandomAI();
-        ai.init(0, 10000, new Random());
+            p1.init(0, 8000, new Random());
+            p2.init(1, 8000, new Random());
+            Move last = null;
+            for (int j = 0; j < 8; j++) {
+                for (int k = 0; k < 8; k++) {
+                    while (board.gameNotFinished()) {
+                        System.out.println(board.writeBoard());
+                        last = p1.nextMove(last, 8000, 8000);
+                        System.out.println("p1 played: " + last);
+                        last = p2.nextMove(last, 8000, 8000);
+                        System.out.println("p2 played: " + last);
 
-        Move m = new Move(2,3);
-        ai.nextMove( m, 1000, 2000 );
+                    }
+                }
+            }
     }
+
+     */
+
+
+
+
+
 }

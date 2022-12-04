@@ -1,38 +1,41 @@
 package com.example.othello;
 
-import javafx.event.EventHandler;
-import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.ImagePattern;
-import javafx.scene.shape.Rectangle;
+
 import szte.mi.Move;
 
-import java.io.FileInputStream;
-import java.io.InputStream;
+
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
 public class OthelloBoardData {
 
-    Random random = null;
-    boolean isComputer = true;
+
+
+
     Box[][] boxes = new Box[8][8];
     final OthelloBoard othelloBoard = new OthelloBoard(8);
 
     public void eventCall(int x, int y){
         OthelloBoard.row = x;
         OthelloBoard.col = y;
-        othelloBoard.getValue();
+
         othelloBoard.gameNotFinished();
-        othelloBoard.checkValid();
+      //  othelloBoard.checkValid();
     }
 
-    public void fncCheckValid() {
+
+
+
+
+
+
+
+
+
+
+    public  Set<Move> appCheck = new HashSet<>();
+   /* public void fncCheckValid() {
         Set<String> sets = othelloBoard.checkValid();
         Set<Move> moves = new HashSet<>();
         for( String item : sets ) {
@@ -44,6 +47,7 @@ public class OthelloBoardData {
                 Box b = new Box(move, EBoard.suggestion);
                 boxes[x][y] = b;
                 moves.add(move);
+                appCheck.add(move);
             }
         }
 
@@ -54,7 +58,7 @@ public class OthelloBoardData {
             eventCall(move.x, move.y);
             System.out.println(move.x + ", " + move.y);
         }
-    }
+    } */
 
     public void checkBoxes() {
         int dimension = 8;
@@ -82,6 +86,11 @@ public class OthelloBoardData {
         }
     }
 
+
+
+
+
+
     public String getTurn(){
         if (Othello.whosTurn == OthelloBoard.blackPlayer){
             return "Black";
@@ -90,9 +99,9 @@ public class OthelloBoardData {
         }
     }
 
-    public void updateBoard() {
-            checkBoxes();
-            fncCheckValid();
+  public void updateBoard() {
+       checkBoxes();
+        //fncCheckValid();
     }
 
     public OthelloBoardData() {

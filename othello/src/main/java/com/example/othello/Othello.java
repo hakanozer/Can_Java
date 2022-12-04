@@ -5,6 +5,7 @@ public class Othello {
 
     public static char whosTurn = OthelloBoard.blackPlayer;
 
+    // Changes the whosTurn variable. Works as a turn mechanism.
     public static void changePlayer(){
         if (whosTurn == OthelloBoard.blackPlayer){
             whosTurn = OthelloBoard.whitePlayer;
